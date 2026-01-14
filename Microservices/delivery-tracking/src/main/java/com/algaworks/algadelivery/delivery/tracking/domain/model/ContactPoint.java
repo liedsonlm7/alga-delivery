@@ -1,12 +1,14 @@
 package com.algaworks.algadelivery.delivery.tracking.domain.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @EqualsAndHashCode
 @AllArgsConstructor
 @Getter
+@Builder
 public class ContactPoint {
     private String zipCode;
     private String street;
