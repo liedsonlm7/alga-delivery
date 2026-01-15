@@ -15,3 +15,8 @@ spring:
         bootstrap-servers: localhost:9092
         key-serializer: org.apache.kafka.common.serialization.StringSerializer
         value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+        properties:
+          spring.json.type.mapping:
+            delivery-placed-event: com.algaworks.algadelivery.delivery.tracking.domain.event.DeliveryPlacedEvent,
+            delivery-picked-up-event: com.algaworks.algadelivery.delivery.tracking.domain.event.DeliveryPickedUpEvent,
+            delivery-fulfilled-event: com.algaworks.algadelivery.delivery.tracking.domain.event.DeliveryFulFilledEvent

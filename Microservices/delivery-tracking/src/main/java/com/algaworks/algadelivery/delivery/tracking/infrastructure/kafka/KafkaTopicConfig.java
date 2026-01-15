@@ -8,9 +8,11 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaTopicConfig {
 
+    public static final String deliveryEventsTopicName = "deliveries.v1.events";
+
     @Bean
     public NewTopic deliveryEventsTopic() {
-        return TopicBuilder.name("deliveries.v1.events")
+        return TopicBuilder.name(deliveryEventsTopicName)
                 .partitions(3)
                 .replicas(1)
                 .build();
