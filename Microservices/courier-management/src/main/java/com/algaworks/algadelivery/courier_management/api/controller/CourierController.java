@@ -1,8 +1,11 @@
 package com.algaworks.algadelivery.courier_management.api.controller;
 
 import com.algaworks.algadelivery.courier_management.api.model.CourierInput;
+import com.algaworks.algadelivery.courier_management.api.model.CourierPayoutCalculationInput;
+import com.algaworks.algadelivery.courier_management.api.model.CourierPayoutResultModel;
 import com.algaworks.algadelivery.courier_management.domain.model.Courier;
 import com.algaworks.algadelivery.courier_management.domain.repository.CourierRepository;
+import com.algaworks.algadelivery.courier_management.domain.service.CourierPayoutService;
 import com.algaworks.algadelivery.courier_management.domain.service.CourierRegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.UUID;
 
@@ -25,6 +29,8 @@ public class CourierController {
 
     private final CourierRegistrationService courierRegistrationService;
     private final CourierRepository courierRepository;
+
+    private final CourierPayoutService courierPayoutService;
 
     @PostMapping
     public ResponseEntity<Courier> create(@Valid @RequestBody CourierInput input) {
@@ -51,6 +57,12 @@ public class CourierController {
         Courier courier = courierRepository.findById(courierId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return ResponseEntity.ok().body(courier);
+    }
+
+    @PostMapping("/payout-calculation")
+    public CourierPayoutResultModel calculate(@RequestBody CourierPayoutCalculationInput input) {
+        BigDecimal payoutFee = courierPayoutService.calculate(input.getDistanceInKm());
+        return new CourierPayoutResultModel(payoutFee);
     }
 
 
