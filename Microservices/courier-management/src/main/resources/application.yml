@@ -24,5 +24,13 @@ spring:
             delivery-picked-up-event:com.fasterxml.jackson.databind.JsonNode,
             delivery-fulfilled-event:com.algaworks.algadelivery.courier_management.infraestructure.event.DeliveryFulFilledIntegrationEvent
 
+  eureka:
+    client:
+      server-url:
+        default-zone: http://localhost:8761/eureka/
+    instance:
+      instance-id: ${random.value}
+      prefer-ip-address: true
+
 server:
   port: 8081
