@@ -1,5 +1,6 @@
 package com.algaworks.algadelivery.courier_management.infraestructure.kafka;
 
+import com.algaworks.algadelivery.courier_management.domain.service.CourierDeliveryService;
 import com.algaworks.algadelivery.courier_management.infraestructure.event.DeliveryFulFilledIntegrationEvent;
 import com.algaworks.algadelivery.courier_management.infraestructure.event.DeliveryPlacedIntegrationEvent;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class KafkaDeliveriesMessageHandler {
 
+    private final CourierDeliveryService courierDeliveryService;
+
     @KafkaHandler(isDefault = true)
     public void defaultHandler(@Payload Object object) {
         log.info("Default Handler: {}", object );
@@ -25,11 +28,13 @@ public class KafkaDeliveriesMessageHandler {
     @KafkaHandler
     public void handle(@Payload DeliveryPlacedIntegrationEvent event) {
         log.info("Receveid: {}", event);
+        courierDeliveryService.assign(event.getDeliveryId());
     }
 
     @KafkaHandler
     public void handle(@Payload DeliveryFulFilledIntegrationEvent event) {
         log.info("Receveid: {}", event);
+        courierDeliveryService.fulfill(event.getDeliveryId());
     }
 
 }
