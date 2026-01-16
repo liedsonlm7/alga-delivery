@@ -69,8 +69,8 @@ public class CourierController {
 
         log.info("Calculating");
 
-        // simula uma falha
-        if (Math.random() < 0.3) {
+        // simulando falhas
+        if (Math.random() < 0.5) {
             throw new RuntimeException();
         }
 
