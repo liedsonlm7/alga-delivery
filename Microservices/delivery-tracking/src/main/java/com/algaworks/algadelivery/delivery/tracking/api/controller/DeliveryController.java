@@ -8,6 +8,7 @@ import com.algaworks.algadelivery.delivery.tracking.domain.service.DeliveryCheck
 import com.algaworks.algadelivery.delivery.tracking.domain.service.DeliveryPreparationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -45,8 +47,11 @@ public class DeliveryController {
         return ResponseEntity.ok().body(delivery);
     }
 
+    @SneakyThrows
     @GetMapping
     public ResponseEntity<PagedModel<Delivery>> findAll(@PageableDefault Pageable pageable) {
+        int millis = new Random().nextInt(400);
+        Thread.sleep(millis);
         PagedModel<Delivery> deliveries = new PagedModel<>(deliveryRepository.findAll(pageable));
         return ResponseEntity.ok().body(deliveries);
     }
